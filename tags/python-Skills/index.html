@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Category: 阅读 | Johnny&#39;s Blog</title>
+  <title>Tag: python Skills | Johnny&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Johnny's Blog">
-<meta property="og:url" content="johnnyluck.github.io/categories/阅读/index.html">
+<meta property="og:url" content="johnnyluck.github.io/tags/python-Skills/index.html">
 <meta property="og:site_name" content="Johnny's Blog">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
@@ -149,11 +149,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-清明节读《父后七日》" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-spider_plus_readability" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2013/清明节读《父后七日》/" class="article-date">
-  	<time datetime="2013-04-06T06:07:10.000Z" itemprop="datePublished">Apr 6 2013</time>
+      <a href="/2016/spider_plus_readability/" class="article-date">
+  	<time datetime="2016-04-20T14:16:54.000Z" itemprop="datePublished">Apr 20 2016</time>
 </a>
     </div>
   
@@ -166,7 +166,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/清明节读《父后七日》/">清明节读《父后七日》</a>
+      <a class="article-title" href="/2016/spider_plus_readability/">当网络爬虫遇上Readability</a>
     </h1>
   
 
@@ -175,7 +175,59 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>恰好在清明节几天读刘梓洁的书《父后七日》，一阵眼泪，一阵欢笑。想起了你，祝天堂的你，一切都好！</p>
+        <p>在Google Reader停止服务之前，我一直有使用RSS订阅博客的习惯。自从Google宣布关闭Reader之后，虽然也有一些替代应用可以使用，如国外的Feedly就提供了与Google Reader的无缝连接，而在国内则涌现出如鲜果和网易云阅读等服务。不知道是怎么不习惯还是RSS的质量越来越差了，后来我没有再使用这些应用。<br>最近由于工作上需要查阅文档，发现一大批相关的博客中有大量的技术干货，于是有了再次订阅RSS文章的想法，但这次，吸取之前的经验，不想订阅大量RSS，一天推送一大堆文章，导致根本没有时间去看，久而久之就没有兴趣。想到“一个”这个应用，因此在想，为什么不写一个程序，然后自动爬取文章，然后每天只推送一篇文章。</p>
+<h2 id="网络爬虫">网络爬虫</h2><p>要完成上面的想法，需要根据我的关键词对感兴趣的博客或者网站的文章进行抓取，因此这里需要一只网络爬虫。</p>
+<h3 id="Requests">Requests</h3><p>要完成网络爬虫，HTTP的操作是基础，这里我选择了<code>Requests</code>这个“给人类使用的HTTP库”。对于Requests的安装可以通过pip和easy_install来实现。HTTP的请求类型包括PUT, DELETE, GET和POST，这些操作在requests中都非常容易实现。</p>
+<h4 id="request类">request类</h4><p>  class requests.Request(method, url, headers, files, data, params…)</p>
+<ul>
+<li>method: HTTP method, 如PUT,GET,DELETE和POST等.</li>
+<li>url: 请求的URL</li>
+<li>headers: HTTP的头部，使用字典来传递</li>
+<li>data: HTTP的数据，使用字典来传递</li>
+<li>params: URL参数，使用字典来传递</li>
+</ul>
+<h4 id="response_类">response 类</h4><p>  class response</p>
+<ul>
+<li>apparent_encoding</li>
+<li>content: content of the response, <strong>in bytes</strong></li>
+<li>text: content of the response, <strong>in unicode</strong></li>
+<li>raw: file-like object representation of response</li>
+<li>json(kwargs): json-encoded content of response</li>
+<li>iter_content()</li>
+<li>iter_lines()</li>
+<li>link:parsed header links</li>
+<li>encoding:</li>
+<li>headers:</li>
+<li>status_code:Integer Code of response</li>
+</ul>
+<h4 id="session_类">session 类</h4><p>  class session</p>
+<ul>
+<li>auth</li>
+<li>cert</li>
+<li>close()</li>
+<li>delete()</li>
+<li>get(url,kwargs)</li>
+<li>head(url,kwargs)</li>
+<li>post(url,kwargs)</li>
+<li>put(url,kwargs)</li>
+<li>send(request,kwargs): send a given PreparedRequest</li>
+</ul>
+<h4 id="简单的Get请求">简单的Get请求</h4><p>  import requests<br>  res = requests.get(‘url’,params={‘key’:’value’}<br>  resContent = res.content<br>  resText = res.text</p>
+<h3 id="Beautiful_Soup">Beautiful Soup</h3><p>在获得网页内容之后，我们需要对html进行解析与处理。这里使用beautifulSoup这个优秀的库来实现。bs能够非常快捷方便地定位html中的元素。</p>
+<p>  apt-get install Python-bs4<br>  pip install beautifulsoup4</p>
+<p>BeautifulSoup将html文档转换层一个复杂的树型结构，每个节点都是一个python对象，所有的对象可以分为tag, NavigableString, BeautifulSoup 和Comment。</p>
+<p>关于BeautifulSoup的操作，可以参阅<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh" target="_blank" rel="external">官方文档</a></p>
+<h3 id="requests_+_beautifulsoup4">requests + beautifulsoup4</h3><p>使用request与beautifulsoup4结合，可以完成网络爬虫的各种操作</p>
+<p>  res  = requests.get(‘url’)<br>  soup = BeautifulSoup(res.text)<br>  print(soup.title.name)</p>
+<h2 id="Readability">Readability</h2><p>Readability 提供了python的API接口，使用起来也非常方便。<a href="https://readability-python-library.readthedocs.org/" target="_blank" rel="external">下载地址</a></p>
+<h3 id="Auth">Auth</h3><p>首先需要注册Readabiliy, 然后在account页中申请得到应用key和secret。(注意, 在网页中得到的key和secret在文档中称为consumer_key和consumer_secret)</p>
+<p>在得到应用key之后，还需要使用账户和密码申请xauth得到的token_key和token_secret</p>
+<p>  from readability import ReaderClient</p>
+<p>  (token_key,token_secret) = auth,xauth(consumer_key=’consumerKey’ consumer_secret=’consumerSecret’, username=’yourname’, password=’yourpassword’)</p>
+<p>以上代码只需要执行一次就能获得token，这时候在readability的网站上就能看到应用已经被激活。以后只需要使用这个token的key和secret就能操作了。</p>
+<h3 id="ReaderClient">ReaderClient</h3><p>  from readability import ReaderClient<br>  client = ReaderClient(token_key=’token_key’, token_secret=’token_secret’)</p>
+<p>Readability 的API提供了阅读列表基本的操作：</p>
+<p>  add_bookmark(url, favorite=False, archive=False, allow_duplicates=True)</p>
 
       
     </div>
@@ -183,73 +235,12 @@
     <div class="article-info article-info-index">
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阅读/">阅读</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-Skills/">python Skills</a></li></ul>
 	</div>
 
       
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/阅读/">阅读</a>
-	</div>
-
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-  
-    <article id="post-读完One Day" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2013/读完One Day/" class="article-date">
-  	<time datetime="2013-03-29T15:15:00.000Z" itemprop="datePublished">Mar 29 2013</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/读完One Day/">读完One Day</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>说来也好玩，大约一年前，有人要和我一起看《ONE DAY》电影版，而当我们看到一半时，我嫌弃太无聊看不下去。而现在独自一个人捧着原著，一周内看完。</p>
-<p>故事就像一场梦，相遇，相知，错过，拥有，失去……</p>
-<p>“两个人相互喜欢也不是那么容易就能在一起，有时候得等双方都整理好各自的人生。至于两个人都准备好的时候是不是来得太晚就不得而知了，得之我幸失之我命。反正这就是你必须接受的现实。”</p>
-<p>“人生中这么多次遇见，谁才是真爱？等你反应过来很可能已经太晚，但比起一辈子都没反应过来的人已经幸运太多，就算它让你心痛。传说中的“真爱”几乎是难以遇见的，这就是你必须接受的现实”</p>
-<p>一场盛大的自我旅程，暮然回首，原来深爱的人就是那个陪你一同成长的伴侣。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阅读/">阅读</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/阅读/">阅读</a>
+	<a class="article-category-link" href="/categories/Tech/">Tech</a>
 	</div>
 
 
